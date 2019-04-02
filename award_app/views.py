@@ -30,7 +30,7 @@ def new_profile(request):
         if form.is_valid():
             profile = form.save(commit=False)
             profile.user = current_user
-            profile.save()        
+            profile.save()           
         return redirect('welcome') 
        
     else:   
