@@ -36,7 +36,8 @@ def new_profile(request):
     else:   
         form = NewProfileForm()
     return render(request, 'new-profile.html', {"form": form})
-
+    
+@login_required(login_url='/accounts/login/')
 def search_project(request):
 
     if 'project' in request.GET and request.GET["project"]:
@@ -54,7 +55,7 @@ def search_project(request):
 def projects(request):
     project = Project.objects.all()
     return render(request, 'welcome.html',{"project":project})
-
+  
 @login_required(login_url='/accounts/login/')
 def project(request):
     current_user = request.user 
