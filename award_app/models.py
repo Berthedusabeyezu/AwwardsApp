@@ -12,7 +12,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.image 
-
+   
     def save_profile(self):
         self.save()  
     
