@@ -31,9 +31,9 @@ def new_profile(request):
             profile = form.save(commit=False)
             profile.user = current_user
             profile.save()        
-        return redirect('welcome')
+        return redirect('welcome') 
        
-    else:
+    else:   
         form = NewProfileForm()
     return render(request, 'new-profile.html', {"form": form})
 
