@@ -1,0 +1,46 @@
+
+{%extends 'all-award/base.html'%}
+{% block content %} 
+<body>
+    <h1><center> Award Application</center></h1> 
+    <br><br>
+     
+    {% for project in projects %}
+    <div class="panel panel-info">
+        <!-- <div class="col-sm-6 col-md-3">  -->
+            <a data-toggle="modal" data-target="#{{project.id}}">
+                <img src="{{project.image.url}}" alt="Image" width='400' height ='400' border = '1px solid #ccc'> 
+            </a>
+
+            <div id="{{project.id}}" class="modal fade" role="dialog" style="background-color:rgb(105, 168, 160);color:rgb(47, 61, 61);font-family: monospace;">
+                <div class="modal-dialog">
+                
+                    <!-- Modal content-->
+                    <div class="panel-body">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            
+                            <h3 class="modal-name"><strong>{{project.title}}</strong></h3>
+                        </div>
+                        
+                        <div class="modal-body">
+                            <img src="{{project.image.url}}" alt="Image" width='400' length='500'> 
+                            <p><strong><em>{{project.description}}</em></strong></p>
+                            <p><a href="">Link</a></p>
+
+                            
+                        </div>
+                        
+                    </div>
+                    </div> 
+                
+                </div>   
+            </div>
+
+        </div>
+
+    {% endfor %}
+</body>
+{% endblock %}
+

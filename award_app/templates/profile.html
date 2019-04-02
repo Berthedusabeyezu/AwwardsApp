@@ -1,0 +1,40 @@
+{%extends 'all-award/base.html'%}
+{% load bootstrap3 %}
+{% load static%}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  {% if title %}
+  <title>Award Application- {{title}}</title>
+  {% else %}
+  <title> Award Application</title>
+  {% endif %}
+
+  {% block styles %}
+  {% bootstrap_css %}
+  <link rel="stylesheet" href="{% static 'css/baseaward.css' %}">
+  {% endblock %}
+
+</head>
+
+<body>
+
+  {% block content %} 
+
+    <h2>{{profile.title}}</h2>
+    <img src="{{profile.image.url}}">
+    <p>{{profile.bio}}</p>
+    <p>{{profile.project}}</p>
+    <p>{{profile.contact}}
+  {%endblock%}
+
+  {% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    {% bootstrap_javascript %}
+  {% endblock %}
+</body>
+
+</html>
