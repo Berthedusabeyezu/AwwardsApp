@@ -12,7 +12,7 @@ def home(request):
     projects=Project.objects.all()
     return render(request, 'welcome.html',{'projects':projects})
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/accounts/login/')   
 def profile(request, profile_id):
     return render(request, 'welcome.html')
 @login_required(login_url='/accounts/login/')
