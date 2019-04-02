@@ -36,7 +36,7 @@ def new_profile(request):
     else:   
         form = NewProfileForm()
     return render(request, 'new-profile.html', {"form": form})
-    
+
 @login_required(login_url='/accounts/login/')
 def search_project(request):
 
@@ -49,7 +49,7 @@ def search_project(request):
       
     else:
         message = "You haven't searched for any term"
-        return render(request, 'all-award/search.html',{"message":message})
+        return render(request, 'all-award/search.html',{"message":message})  
 
 @login_required(login_url='/accounts/login/')
 def projects(request):
