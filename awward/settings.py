@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'award_app',
     'bootstrap3',
 
-]
+] 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
