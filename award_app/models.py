@@ -18,7 +18,7 @@ class Profile(models.Model):
     
     def delete_profile(self):  
         self.delete()
-       
+         
     def update_profile(self, update):
         self.image = update 
         self.save()
