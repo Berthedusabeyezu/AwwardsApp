@@ -8,6 +8,7 @@
     {% for project in projects %}
     <div class="panel panel-info"> 
         <!-- <div class="col-sm-6 col-md-3">  -->
+            <h3 class="modal-name"><strong>{{project.title}}</strong></h3>
             <a data-toggle="modal" data-target="#{{project.id}}">
                 <img src="{{project.image.url}}" alt="Image" width='400' height ='400' border = '1px solid #ccc'> 
             </a>

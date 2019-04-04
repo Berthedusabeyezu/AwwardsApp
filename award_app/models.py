@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator,MaxValueValidator
+
 # Create your models here.
 
 
@@ -31,7 +33,7 @@ class Project(models.Model):
     image = models.ImageField(upload_to = 'images/')
     description = models.TextField()
     link = models.CharField(max_length=50)
-
+    
     def __str__(self):
         return self.project
 
@@ -46,6 +48,13 @@ class Project(models.Model):
 
     @classmethod
     def search_project(cls,search_term):
-        project = cls.objects.filter(project_title__icontains = search_term)
+        project = Project.objects.filter(title__icontains =search_term)
         return project
     
+class Votes(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    posted_on = models.DateTimeField(auto_now_add=True,)
+    project =  models.ForeignKey(Project,on_delete=models.CASCADE)
+    design = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(10)])
+    usability = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(10)])
+    content = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(10)])

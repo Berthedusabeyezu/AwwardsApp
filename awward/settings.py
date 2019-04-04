@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles', 
     'award_app',
     'bootstrap3',
+    'rest_framework',
+    'rest_framework.authtoken'
 
 ] 
 
@@ -128,3 +130,9 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL= 'welcome'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}

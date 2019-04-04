@@ -2,8 +2,13 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.http  import HttpResponse
 from django.contrib.auth.models import User
-from .forms import NewProfileForm,NewProjectForm
-from .models import Project,Profile
+from .forms import NewProfileForm,NewProjectForm,VotesForm
+from .models import Project,Profile,Votes
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializer import ProjectSerializer,ProfileSerializer
+from rest_framework import status
+from .permissions import IsAdminOrReadOnly
 # Create your views here.
 
 
@@ -42,10 +47,10 @@ def search_project(request):
 
     if 'project' in request.GET and request.GET["project"]:
         search_term = request.GET.get("project")
-        search_projects = project.search_by_title(search_term)
+        project = Project.search_project(search_term)
         message = f"{search_term}"
 
-        return render(request, 'all-award/search.html',{"message":message,"projects": search_projects})
+        return render(request, 'all-award/search.html',{"message":message,"project":project})
       
     else:
         message = "You haven't searched for any term"
@@ -70,3 +75,49 @@ def project(request):
     else:
         form = NewProjectForm()
     return render(request, 'project.html', {"form": form})
+
+def votes(request,id):
+    current_user = request.user
+    post = Project.objects.get(id=id)
+    votes = Votes.objects.filter(project=post)
+  
+    if request.method == 'POST':
+            vote = VotesForm(request.POST)
+            if vote.is_valid():
+                design = vote.cleaned_data['design']
+                usability = vote.cleaned_data['usability']
+                content = vote.cleaned_data['content']
+                rating = Votes(design=design,usability=usability,content=content,user=request.user,project=post)
+                rating.save()
+                return redirect('project')      
+    else:
+        form = VotesForm()
+        return render(request, 'vote.html', {"form":form,'post':post,'user':current_user,'votes':votes})
+
+class ProjectList(APIView):
+    def get(self, request, format=None):
+        all_project = Project.objects.all()
+        serializers = ProjectSerializer(all_project, many=True)
+        return Response(serializers.data)
+
+    def post(self, request, format=None):
+        serializers = ProjectSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+        permission_classes = (IsAdminOrReadOnly,)
+
+class ProfileList(APIView):
+    def get(self, request, format=None):
+        all_profile = Profile.objects.all()
+        serializers = ProfileSerializer(all_profile, many=True)
+        return Response(serializers.data)
+
+    def post(self, request, format=None):
+        serializers = ProfileSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+        permission_classes = (IsAdminOrReadOnly,)
