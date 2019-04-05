@@ -16,7 +16,8 @@ from .permissions import IsAdminOrReadOnly
 def home(request):
     projects=Project.objects.all()
     return render(request, 'welcome.html',{'projects':projects})
-
+    
+    
 @login_required(login_url='/accounts/login/')   
 def profile(request, profile_id):
     return render(request, 'welcome.html')
@@ -89,7 +90,7 @@ def votes(request,id):
                 content = vote.cleaned_data['content']
                 rating = Votes(design=design,usability=usability,content=content,user=request.user,project=post)
                 rating.save()
-                return redirect('project')      
+                return redirect(home)      
     else:
         form = VotesForm()
         return render(request, 'vote.html', {"form":form,'post':post,'user':current_user,'votes':votes})
